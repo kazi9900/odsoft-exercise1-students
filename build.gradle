@@ -22,6 +22,8 @@ javadoc {
 }
 
 task renderPlantUml(type: RenderPlantUmlTask) {
+
+
 }
 
 // To execute the app
