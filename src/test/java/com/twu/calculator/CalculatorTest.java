@@ -1,5 +1,5 @@
 package com.twu.calculator;
-
+import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.contrib.java.lang.system.ExpectedSystemExit;
@@ -130,7 +130,7 @@ public class CalculatorTest {
     }
 
     @Test
-    public void shouldReturnCubeOfResult() {
+    public void shouldReturnshouldReturnCorrectValueWhenFirstCommandIsAddAndSecondCommandIsDivideOfResult() {
         Calculator calculator = new Calculator();
         calculator.doOperation("add", 4);
 
@@ -148,5 +148,26 @@ public class CalculatorTest {
 
         assertThat(actualResult, is(4.0));
     }
+    @Test
+    public void shouldReturnCorrectValueWhenNumberDivideOnTree() {
+        Calculator calculator = new Calculator();
+        calculator.doOperation("add", 90);
 
+        double actualResult = calculator.doOperation("third", 3);
+
+        assertThat(actualResult, is(30.0));
+    }
+
+    @Test
+    public void shouldReturnCorrectValueOfFactorial() {
+        Calculator calculator = new Calculator();
+        calculator.doOperation("add", 3);
+
+        double actualResult = calculator.doOperation("factorial", 3);
+
+        assertThat(actualResult, is(9.0));
+    }
+
+
+    //TODO ADD NEW METHODS TO UNIT TEST FACTORIAL AND THIRD
 }

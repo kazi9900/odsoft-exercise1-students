@@ -105,8 +105,8 @@ class RenderPlantUmlTask extends DefaultTask {
 
             // Now, generate the file
             SourceStringReader reader = new SourceStringReader(pumlContent)
-
-            // IMPORTANT:
+            renderFile(pumlContent, puml, new FileFormatOption(FileFormat.SVG))
+            renderFile(pumlContent, puml, new FileFormatOption(FileFormat.PNG))
             // It is necessary to create the directory if it does not existe yet!
             if (!png.exists())
             {

@@ -1,24 +1,19 @@
-@startuml class-diagram.png
-skinparam handwritten true
-skinparam monochrome true
-skinparam packageStyle rect
-skinparam defaultFontName FG Virgil
-skinparam shadowing false
-  
-class CalculatorApp {
-  public start()
-  public static main()
+@startuml class
+participant "Combianet" as A
+participant "Calculate" as B
+participant "Factorial" as C
+A-> B:add(int x) x>=1
+B-->C:xn!(void)
 
-  private isOperationNeedExternalOperator()
-  private getOperation()∏
-  private getOperand()
-}
-class Calculator {
-private accumulator
-
-public doOperation()
-}
-
-CalculatorApp *-> Calculator
+loop factorial
+A->B:n!(x)
+alt if x<=1
+A-->B: print(x)
+B-->C: print
+end alt
+end loop
+note over B,C
+Factorial
+end note
 
 @enduml

@@ -26,7 +26,7 @@ task renderPlantUml(type: RenderPlantUmlTask) {
 
 }
 
-// To execute the app
+// T''o execute the app
 task runApp (type: JavaExec, dependsOn: classes){
     /* Can pass all the properties: */
     systemProperties System.getProperties()

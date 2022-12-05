@@ -39,14 +39,17 @@ public class Calculator {
             case "third":
                 accumulator = accumulator / 3;
             case "factorial":
-                //TODO
-                //accumulator = accumulator / 3;
-                break;
+                int a = 3;
+                int b = 3;
+                accumulator = Math.multiplyExact( a , b);
+               break;
             case "cancel":
                 accumulator = 0;
                 break;
             case "exit":
                 System.exit(0);
+            default:
+                throw new IllegalStateException("Unexpected value: " + operation);
         }
         return accumulator;
     }

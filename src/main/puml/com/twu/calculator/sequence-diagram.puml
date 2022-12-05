@@ -1,22 +1,50 @@
-@startuml class-diagram.png
+@startuml
+skinparam backgroundColor #EEEBDC
 skinparam handwritten true
-skinparam monochrome true
-skinparam packageStyle rect
-skinparam defaultFontName FG Virgil
-skinparam shadowing false
 
+skinparam sequence {
+ArrowColor DeepSkyBlue
+ActorBorderColor DeepSkyBlue
+LifeLineBorderColor blue
+LifeLineBackgroundColor #A9DCDF
+
+ParticipantBorderColor DeepSkyBlue
+ParticipantBackgroundColor DodgerBlue
+ParticipantFontName Impact
+ParticipantFontSize 17
+ParticipantFontColor #A9DCDF
+
+ActorBackgroundColor aqua
+ActorFontColor DeepSkyBlue
+ActorFontSize 17
+ActorFontName Aapex
+}
+
+Factorial <-- "Combination"
+activate Factorial
+"Combination" -> "Calculate":  (  10)
+activate Combination
+deactivate "Calculate"
+User -->  "Calculate":   add(5)
+activate "Calculate"
+"Calculate" -> "User": display (120)
+deactivate "Calculate"
+User -->  "Calculate": add(3)
+activate "Calculate"
+"Calculate" -> "User": display (6)
+deactivate "Calculate"
+User -->  "Calculate": add(2)
+activate "Calculate"
+"Calculate" -> "User": display (2)
+deactivate "Calculate"
+"Calculate" --> "Combination": (  5.2)
+deactivate "Combination"
+deactivate "Combination"
+Factorial -> "Calculate"
+deactivate Factorial
 actor User
-participant CalculatorApp
-participant Calculator
 
-create Calculator
-CalculatorApp -> Calculator : new
-Calculator -> Calculator : accumulator=0.0
 
-User ->> CalculatorApp : "add 5.5"
-CalculatorApp ->> Calculator : doOperation("add", 5.5)
-CalculatorApp <<-- Calculator : returns 5.5
-User <<-- CalculatorApp : displays "5.5"
 
 
 @enduml

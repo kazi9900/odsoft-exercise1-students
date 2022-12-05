@@ -1,5 +1,5 @@
 package com.twu.calculator;
-
+import java.util.stream.IntStream;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -31,6 +31,22 @@ public class CalculatorAppTest {
 
         assertThat(actualResult, is("> 10.0"+System.getProperty("line.separator")));
     }
+
+
+    public class Factorial {
+        public  int compute(int n) {
+            if (n < 0)
+                throw new IllegalArgumentException("Negative input: + n");
+            return IntStream.rangeClosed(2, n).reduce(1, (x, y) -> x * y);
+        }
+    }
+    @Test
+    public void shouldStartThiredCalculatTest() {
+        ByteArrayInputStream inputContent = new ByteArrayInputStream("add n\3".getBytes());
+        ByteArrayOutputStream outputContent = new ByteArrayOutputStream();
+    }
+
+    //TODO ADD NEW INTEGRATION TEST FOR FACTORIAL AND THIRD
 
     @After
     public void tearDown() {
