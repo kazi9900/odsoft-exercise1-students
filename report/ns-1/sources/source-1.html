@@ -1,0 +1,250 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > RenderPlantUmlTask</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">&lt;empty package name&gt;</a>
+</div>
+
+<h1>Coverage Summary for Class: RenderPlantUmlTask (&lt;empty package name&gt;)</h1>
+
+<table class="coverageStats">
+
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">RenderPlantUmlTask</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/3)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/27)
+  </span>
+</td>
+</tr>
+  <tr>
+    <td class="name">RenderPlantUmlTask$_closure1</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/5)
+  </span>
+</td>
+  </tr>
+<tr>
+  <td class="name"><strong>Total</strong></td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/4)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/32)
+  </span>
+</td>
+</tr>
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;/*
+&nbsp; * This code is based on Jason Dunkelberger (a.k.a dirkraft) as stated below
+&nbsp;*/
+&nbsp;
+&nbsp;/*
+&nbsp; * The MIT License (MIT)
+&nbsp; *
+&nbsp; * Copyright (c) 2015 Jason Dunkelberger (a.k.a dirkraft)
+&nbsp; *
+&nbsp; * Permission is hereby granted, free of charge, to any person obtaining a copy
+&nbsp; * of this software and associated documentation files (the &quot;Software&quot;), to deal
+&nbsp; * in the Software without restriction, including without limitation the rights
+&nbsp; * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+&nbsp; * copies of the Software, and to permit persons to whom the Software is
+&nbsp; * furnished to do so, subject to the following conditions:
+&nbsp; *
+&nbsp; * The above copyright notice and this permission notice shall be included in
+&nbsp; * all copies or substantial portions of the Software.
+&nbsp; *
+&nbsp; * THE SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+&nbsp; * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+&nbsp; * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+&nbsp; * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+&nbsp; * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+&nbsp; * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+&nbsp; * THE SOFTWARE.
+&nbsp; */
+&nbsp;
+&nbsp;// For plantuml support
+&nbsp;import net.sourceforge.plantuml.FileFormat
+&nbsp;import net.sourceforge.plantuml.FileFormatOption
+&nbsp;import net.sourceforge.plantuml.SourceStringReader
+&nbsp;import org.apache.commons.io.FilenameUtils
+&nbsp;// For gradle
+&nbsp;import org.gradle.api.DefaultTask
+&nbsp;import org.gradle.api.Plugin
+&nbsp;import org.gradle.api.Project
+&nbsp;import org.gradle.api.tasks.Delete
+&nbsp;import org.gradle.api.tasks.TaskAction
+&nbsp;import org.gradle.api.tasks.InputDirectory;
+&nbsp;import org.gradle.api.tasks.OutputDirectory;
+&nbsp;import org.gradle.api.tasks.Input
+&nbsp;import org.gradle.api.tasks.incremental.IncrementalTaskInputs
+&nbsp;// For File
+&nbsp;import java.nio.file.Files
+&nbsp;import java.nio.file.Path
+&nbsp;import java.nio.file.Paths
+&nbsp;import groovy.io.FileType
+&nbsp;
+&nbsp;/**
+&nbsp; *
+&nbsp; */
+&nbsp;class RenderPlantUmlTask extends DefaultTask {
+&nbsp;    @InputDirectory
+<b class="nc">&nbsp;    def Path assetsPathInput = project.projectDir.toPath().resolve(&#39;src/main/puml/&#39;)</b>
+&nbsp;
+&nbsp;    @OutputDirectory
+<b class="nc">&nbsp;    def Path assetsPathOutput = project.projectDir.toPath().resolve(&#39;build/puml/&#39;)</b>
+&nbsp;
+&nbsp;    RenderPlantUmlTask() {
+<b class="nc">&nbsp;        Path projectPath = project.projectDir.toPath()</b>
+&nbsp;
+<b class="nc">&nbsp;        new File(assetsPathInput.toString()).eachFileRecurse( FileType.FILES,</b>
+&nbsp;            { pumlFile -&gt;
+<b class="nc">&nbsp;                if (pumlFile.name.endsWith(&#39;.puml&#39;)) {</b>
+<b class="nc">&nbsp;                    inputs.file pumlFile</b>
+&nbsp;
+<b class="nc">&nbsp;                    def outFile=getDestination(pumlFile, &#39;.png&#39;)</b>
+<b class="nc">&nbsp;                    outputs.file outFile</b>
+<b class="nc">&nbsp;                }</b>
+&nbsp;            }
+&nbsp;        )
+&nbsp;    }
+&nbsp;
+&nbsp;    File getDestination(File puml, String extension) {
+&nbsp;        // eg: puml = /workspaces/project/src/main/puml/application_start_image1.puml
+<b class="nc">&nbsp;        String baseName = FilenameUtils.getBaseName(puml.name)    // eg: application_start_image1</b>
+<b class="nc">&nbsp;        String destName = baseName</b>
+<b class="nc">&nbsp;        String basePath = FilenameUtils.getFullPath(puml.path)    // eg: /workspaces/project/src/main/puml/</b>
+&nbsp;
+<b class="nc">&nbsp;        String assetsPathInputString=assetsPathInput.toString()</b>
+&nbsp;
+<b class="nc">&nbsp;        String assetsPathOutputString=assetsPathOutput.toString()</b>
+&nbsp;
+<b class="nc">&nbsp;        String relativePath=basePath.substring(assetsPathInputString.length())</b>
+&nbsp;
+<b class="nc">&nbsp;        String newRelativePathString = relativePath + destName + extension</b>
+&nbsp;
+<b class="nc">&nbsp;        String newAbsolutePathString = assetsPathOutputString+newRelativePathString</b>
+&nbsp;
+<b class="nc">&nbsp;        Path destPathPng=Paths.get(newAbsolutePathString)</b>
+&nbsp;
+<b class="nc">&nbsp;        destPathPng.toFile()</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @TaskAction
+&nbsp;    def render() {
+<b class="nc">&nbsp;        Path projectPath = project.projectDir.toPath()</b>
+<b class="nc">&nbsp;        for (int i=0; i&lt;inputs.files.size(); i=i+1) {</b>
+<b class="nc">&nbsp;            File puml = inputs.files[i]</b>
+<b class="nc">&nbsp;            File png=getDestination(puml, &#39;.png&#39;)</b>
+&nbsp;
+<b class="nc">&nbsp;            String relPumlPath = projectPath.relativize(puml.toPath()).toString()</b>
+<b class="nc">&nbsp;            String pumlContent = new String(Files.readAllBytes(puml.toPath()), &#39;UTF-8&#39;)</b>
+&nbsp;
+&nbsp;            // Now, generate the file
+<b class="nc">&nbsp;            SourceStringReader reader = new SourceStringReader(pumlContent)</b>
+&nbsp;
+&nbsp;            // IMPORTANT:
+&nbsp;            // It is necessary to create the directory if it does not existe yet!
+<b class="nc">&nbsp;            if (!png.exists())</b>
+&nbsp;            {
+<b class="nc">&nbsp;                def dir=FilenameUtils.getFullPath(png.path)</b>
+<b class="nc">&nbsp;                def subdir = new File(dir)</b>
+<b class="nc">&nbsp;                subdir.mkdirs()</b>
+&nbsp;            }
+&nbsp;
+<b class="nc">&nbsp;            reader.generateImage(new FileOutputStream(png), new FileFormatOption(FileFormat.PNG))</b>
+<b class="nc">&nbsp;        }</b>
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2022-12-05 11:14</div>
+</div>
+</body>
+</html>
